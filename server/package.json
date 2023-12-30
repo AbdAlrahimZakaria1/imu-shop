@@ -2,9 +2,9 @@
   "name": "imushop",
   "version": "1.0.0",
   "description": "",
-  "main": ".src/app.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "nodemon .src/server.js"
+    "start": "nodemon src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
