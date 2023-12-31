@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "A user must have a name."],
     trim: true,
-    lowercase: true,
   },
   email: {
     type: String,
     required: [true, "A user must have an email."],
     unique: true,
-    validator: [validator.isEmail, "Invalid email address!"],
+    validate: [validator.isEmail, "Invalid email address!"],
+    lowercase: true,
   },
   photo: {
     type: String,
@@ -35,12 +37,42 @@ const userSchema = new mongoose.Schema({
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
-  PasswordResetExpires: Date,
+  passwordResetExpires: Date,
   active: {
     type: Boolean,
     select: false,
   },
 });
+
+userSchema.pre("save", async function (next) {
+  // if password isn't modified, don't encrypt
+  if (!this.isModified("password")) return next();
+
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.methods.validatePassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
 
 const User = mongoose.model("User", userSchema);
 export default User;
