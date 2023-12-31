@@ -1,9 +1,15 @@
-const express = require("express");
-
+import express from "express";
+import userRoutes from "./routes/userRoutes.js";
+import morgan from "morgan";
 const app = express();
 
-// app.listen(3000, () => {
-//   console.log("Listening on port 3000!");
-// });
+app.use(morgan("dev"));
 
-module.exports = app;
+app.use((req, res, next) => {
+  console.log("hello from middleware");
+  next();
+});
+
+app.use("/api/v1/users", userRoutes);
+
+export default app;
