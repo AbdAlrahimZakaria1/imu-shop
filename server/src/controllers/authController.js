@@ -40,14 +40,20 @@ export const login = catchAsync(async (req, res, next) => {
   if (!email || !password)
     return next(new AppError("Missing login information", 400));
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
 
   // 2) check if password is correct
   if (!(await user.validatePassword(password, user.password))) {
     return next(new AppError("Password is not correct!", 400));
   }
 
-  // 3) create new token and send it
+  // 3) if inactive, activate it (remove field altogether) -- doesn't work for now
+  // if (user.active) {
+  //   user.active = undefined;
+  //   await user.save({ validateBeforeSave: false });
+  // }
+
+  // 4) create new token and send it
   createSendToken(user, 200, res);
 });
 
@@ -124,6 +130,76 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
 
+  await user.save();
+
+  createSendToken(user, 200, res);
+});
+
+export const protect = catchAsync(async (req, res, next) => {
+  // 1) get token from headers or cookies (cookies will be done in later parts)
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    return next(new AppError("invalid credentials! Please log in", 401));
+  }
+
+  // 2) get user id based on the decoded jwt token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  const currentUser = await User.findById(decoded.id).select("+password");
+  if (!currentUser) {
+    return new AppError(
+      "The user belonging to this token no longer exists",
+      401
+    );
+  }
+  // 3) check if password has changed after token was created
+  if (currentUser.passwordChangedAfter(decoded.iat)) {
+    return next(
+      new AppError(
+        "The password has changed recently, please log in again.",
+        401
+      )
+    );
+  }
+
+  // 4) give access & put user info on req data
+  req.user = currentUser;
+  next();
+});
+
+export const updateMyPassword = catchAsync(async (req, res, next) => {
+  // 1) get user from req.user (this runs after protect - it's for signed in users)
+  const user = await User.findById(req.user.id).select("+password");
+
+  // 2) check if password is correct and if password confirm is the same as password
+  if (!(await user.validatePassword(req.body.passwordCurrent, user.password))) {
+    return next(
+      new AppError(
+        "Password is incorrect, please provide your current correct password",
+        400
+      )
+    );
+  }
+
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        "New passwords do not match, please enter your password confirm again",
+        400
+      )
+    );
+  }
+
+  // 3) change passwprds
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
   createSendToken(user, 200, res);

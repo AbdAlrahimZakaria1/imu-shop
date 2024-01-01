@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "A user must have a password."],
     minlength: [8, "Password must be at least 8 characters long"],
     maxlength: [50, "Password must be at most 50 characters long"],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -72,6 +73,19 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
+};
+
+userSchema.methods.passwordChangedAfter = function (JWTTimeStamp) {
+  if (this.passwordChangedAt) {
+    const ChangedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimeStamp < ChangedTimestamp;
+  }
+
+  // Password was not CHANGED
+  return false;
 };
 
 const User = mongoose.model("User", userSchema);
