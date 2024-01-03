@@ -1,0 +1,23 @@
+{
+  "name": "testname",
+  "slug": "testname",
+  "description": "asdasdsad",
+  "material": "asdasdsad",
+  "price": 123,
+  "priceDiscount": 11,
+  "imageCover": "String",
+  "images": ["String"],
+  "createdAt": 1704302633560,
+  "ratingsAverage": 3,
+  "ratingsQuantity": 4,
+  "variatationAttributes": {
+    "color": {
+      "sku": 1234,
+      "label": "black"
+    },
+    "sizes": {
+      "sku": 123411,
+      "label": "XXS"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -48,28 +49,32 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  variatationAttributes: {
+    color: {
+      sku: {
+        type: Number,
+        required: [true, "A color must have a sku vavlue."],
+      },
+      label: String,
+    },
+    sizes: {
+      sku: {
+        type: Number,
+        required: [true, "A color must have a sku vavlue."],
+      },
+      label: String,
+    },
+  },
 });
 
-// TODO populate slug field
+productSchema.pre("save", function () {
+  this.slug = slugify(this.name, { lower: true });
+});
+
 const Product = mongoose.model("Product", productSchema);
 export default Product;
 
 /*
-SIZES & COLOR (ONE COLOR PER DOCEMENT)
-variatationAttributes: {
-    color: {
-        sku: Number,
-        label: String,
-        code: Number,
-    },
-    sizes: [
-        {
-            sku: Number,
-            label: String,
-        }
-    ]
-}
-
 TODO later:
 handle stocks
 handle reviews

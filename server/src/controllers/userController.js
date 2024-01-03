@@ -15,7 +15,7 @@ export const deleteUser = catchAsync(async (req, res, next) => {
 
   user.active = false;
   user.save({ validateBeforeSave: false });
-  res.status(200).json({
+  res.status(204).json({
     status: "success",
     data: {
       user,
