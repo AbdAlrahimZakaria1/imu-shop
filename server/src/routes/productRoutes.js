@@ -11,8 +11,13 @@ router
   .get(productController.getAllProducts)
   .post(productController.createProduct);
 
+// Order here matters
+// Get product by slug
+// router.route("/:slug").get(productController.getProductBySlug);
+
 router
   .route("/:id")
+  // Get product by ID
   .get(productController.getProduct)
   .patch(productController.updateProduct)
   .delete(productController.deleteProduct);

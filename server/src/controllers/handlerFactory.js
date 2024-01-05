@@ -23,6 +23,7 @@ export const getAll = (Model) =>
 
     res.status(200).json({
       status: "success",
+      results: doc.length,
       data: doc,
     });
   });
@@ -51,7 +52,6 @@ export const updateOne = (Model) =>
 
     res.status(200).json({
       status: "success",
-      results: docs.length,
       data: docs,
     });
   });
