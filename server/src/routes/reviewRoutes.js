@@ -1,12 +1,20 @@
 import express from "express";
-import Review from "../models/reviewModel.js";
-import * as handlerFactory from "../controllers/handlerFactory.js";
+import * as reviewController from "../controllers/reviewController.js";
+import * as authController from "../controllers/authController.js";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
+router.use(authController.protect);
 router
   .route("/")
-  .get(handlerFactory.getAll(Review))
-  .post(handlerFactory.createOne(Review));
+  // get all reviews on specific product - TBC after applying filters
+  .get(reviewController.getAllReviews)
+  .post(reviewController.setProductUserId, reviewController.createReview);
+
+router
+  .route("/:id")
+  .get(reviewController.getReview)
+  .patch(reviewController.updateReview)
+  .delete(reviewController.deleteReview);
 
 export default router;

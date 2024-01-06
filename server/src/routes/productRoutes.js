@@ -1,8 +1,11 @@
 import express from "express";
 import * as authController from "../controllers/authController.js";
 import * as productController from "../controllers/productController.js";
+import reviewRouter from "./reviewRoutes.js";
 
 const router = express.Router();
+
+router.use("/:productId/reviews", reviewRouter);
 
 router.get("/protectedRoute", authController.protect);
 
