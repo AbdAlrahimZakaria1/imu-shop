@@ -1,23 +1,158 @@
-{
-  "name": "testname",
-  "slug": "testname",
-  "description": "asdasdsad",
-  "material": "asdasdsad",
-  "price": 123,
-  "priceDiscount": 11,
-  "imageCover": "String",
-  "images": ["String"],
-  "createdAt": 1704302633560,
-  "ratingsAverage": 3,
-  "ratingsQuantity": 4,
-  "variatationAttributes": {
-    "color": {
-      "sku": 1234,
-      "label": "black"
-    },
-    "sizes": {
-      "sku": 123411,
-      "label": "XXS"
+[
+  {
+    "name": "test 1",
+    "description": "Description",
+    "material": "Material",
+    "price": 49,
+    "prodId": 1111111,
+    "imageCover": "default.jpg",
+    "images": ["default-1.jpg"],
+    "variatationAttributes": {
+      "color": {
+        "sku": 11111111112,
+        "label": "white"
+      },
+      "sizes": [
+        {
+          "sku": 1111111111211,
+          "label": "XXS",
+          "inventory": 5
+        },
+        {
+          "sku": 1111111111212,
+          "label": "XS"
+        },
+        {
+          "sku": 1111111111213,
+          "label": "S",
+          "inventory": 2
+        }
+      ]
+    }
+  },
+  {
+    "name": "test 2",
+    "description": "Description",
+    "material": "Material",
+    "price": 49,
+    "prodId": 1111112,
+    "imageCover": "default.jpg",
+    "images": ["default-1.jpg"],
+    "variatationAttributes": {
+      "color": {
+        "sku": 11111111212,
+        "label": "black"
+      },
+      "sizes": [
+        {
+          "sku": 1111111121211,
+          "label": "XXS"
+        },
+        {
+          "sku": 1111111121212,
+          "label": "XS",
+          "inventory": 2
+        },
+        {
+          "sku": 1111111121213,
+          "label": "S",
+          "inventory": 44
+        }
+      ]
+    }
+  },
+  {
+    "name": "test 3",
+    "description": "Description",
+    "material": "Material",
+    "price": 49,
+    "prodId": 1111113,
+    "imageCover": "default.jpg",
+    "images": ["default-1.jpg"],
+    "variatationAttributes": {
+      "color": {
+        "sku": 11111131113,
+        "label": "white"
+      },
+      "sizes": [
+        {
+          "sku": 1111113111311,
+          "label": "XXS",
+          "inventory": 23
+        },
+        {
+          "sku": 1111113111312,
+          "label": "XS",
+          "inventory": 51
+        },
+        {
+          "sku": 1111113111313,
+          "label": "S",
+          "inventory": 98
+        }
+      ]
+    }
+  },
+  {
+    "name": "test 4",
+    "description": "Description",
+    "material": "Material",
+    "price": 49,
+    "priceDiscount": 32.0,
+    "prodId": 1111115,
+    "imageCover": "default.jpg",
+    "images": ["default-1.jpg"],
+    "variatationAttributes": {
+      "color": {
+        "sku": 11111151114,
+        "label": "white"
+      },
+      "sizes": [
+        {
+          "sku": 1111115111411,
+          "label": "XXS"
+        },
+        {
+          "sku": 1111115111412,
+          "label": "XS"
+        },
+        {
+          "sku": 1111115111413,
+          "label": "S"
+        }
+      ]
+    }
+  },
+  {
+    "name": "test 5",
+    "description": "Description",
+    "material": "Material",
+    "price": 79.99,
+    "priceDiscount": 42.0,
+    "prodId": 1111115,
+    "imageCover": "default.jpg",
+    "images": ["default-1.jpg"],
+    "variatationAttributes": {
+      "color": {
+        "sku": 11111151115,
+        "label": "white"
+      },
+      "sizes": [
+        {
+          "sku": 1111115111511,
+          "label": "XXS"
+        },
+        {
+          "sku": 1111115111512,
+          "label": "XS",
+          "inventory": 92
+        },
+        {
+          "sku": 1111115111513,
+          "label": "S",
+          "inventory": 1
+        }
+      ]
     }
   }
-}
+]

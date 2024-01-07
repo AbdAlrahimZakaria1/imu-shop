@@ -7,7 +7,7 @@ const router = express.Router({ mergeParams: true });
 router.use(authController.protect);
 router
   .route("/")
-  // get all reviews on specific product - TBC after applying filters
+  // get all reviews on specific product
   .get(reviewController.getAllReviews)
   .post(reviewController.setProductUserId, reviewController.createReview);
 

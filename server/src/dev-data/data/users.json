@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Nour Chami",
+    "email": "nourChami@example.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234"
+  },
+  {
+    "name": "Abd Alrahim Zakaria",
+    "email": "abdAlrahimZakaria@example.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234"
+  },
+  {
+    "name": "Abdurrahman Kaya",
+    "email": "abdurrahmanKaya@example.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234"
+  }
+]

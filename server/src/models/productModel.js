@@ -58,13 +58,21 @@ const productSchema = new mongoose.Schema(
         },
         label: String,
       },
-      sizes: {
-        sku: {
-          type: Number,
-          required: [true, "A color must have a sku vavlue."],
+      sizes: [
+        {
+          _id: false,
+          sku: {
+            type: Number,
+            required: [true, "A color must have a sku vavlue."],
+          },
+          label: String,
+          inventory: {
+            type: Number,
+            default: 0,
+            required: [true, "Size must have a stock quantity."],
+          },
         },
-        label: String,
-      },
+      ],
     },
   },
   {

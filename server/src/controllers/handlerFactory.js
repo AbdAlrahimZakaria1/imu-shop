@@ -1,5 +1,6 @@
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
+import APIFeatures from "../utils/apiFeatures.js";
 
 export const getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
@@ -19,7 +20,16 @@ export const getOne = (Model, popOptions) =>
 
 export const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
+    // Small "hack" to apply filters for nested paths
+    let filter = {};
+    if (req.params.productId) filter = { productId: req.params.productId };
+
+    const features = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .fieldFilter()
+      .paginate();
+    const doc = await features.query;
 
     res.status(200).json({
       status: "success",
