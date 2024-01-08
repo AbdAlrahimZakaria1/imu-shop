@@ -25,10 +25,10 @@ export const getAll = (Model) =>
     if (req.params.productId) filter = { productId: req.params.productId };
 
     const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
       .sort()
       .fieldFilter()
-      .paginate();
+      .paginate()
+      .filter();
     const doc = await features.query;
 
     res.status(200).json({
